@@ -3,6 +3,7 @@ cat << 'EOF' > README.md
 # JC827W543R_I - GIF Player using SPIFFS
 
 [Link AliExpress](https://pt.aliexpress.com/item/1005006729377800.html?spm=a2g0o.order_list.order_list_main.27.6ec5caa4tGAXDR&gatewayAdapt=glo2bra)
+[Guition Offical Site](https://guition.com/main/)
 
 This is a personal project to demonstrate how to display animated GIFs on the JC827W543R_I 4.3" serial display using an ESP32-S3-N4R8 by Guition. It plays a `.gif` file stored in internal flash memory (SPIFFS) with full support for transparency and smooth animation.
 
