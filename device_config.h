@@ -1,6 +1,6 @@
 #pragma once
 
-// Botão
+// Button
 #define BTN_A 0
 
 // SD card

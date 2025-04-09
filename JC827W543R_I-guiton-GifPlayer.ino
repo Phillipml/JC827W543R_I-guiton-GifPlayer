@@ -8,7 +8,7 @@
 AnimatedGIF gif;
 File f;
 
-// ----- Funções de acesso para SPIFFS -----
+// SPIFFS access functions
 void *GIFOpenFile(const char *fname, int32_t *pSize) {
   f = SPIFFS.open(fname);
   if (f) {
@@ -41,12 +41,12 @@ int32_t GIFSeekFile(GIFFILE *pFile, int32_t iPosition) {
   return pFile->iPos;
 }
 
-// Função auxiliar para trocar bytes (RGB565 endian swap)
+// Swap bytes for RGB565 format (big endian)
 uint16_t swap565(uint16_t c) {
   return (c << 8) | (c >> 8);
 }
 
-// ----- Função de desenho do frame do GIF -----
+// Draw GIF frame to screen
 void GIFDraw(GIFDRAW *pDraw) {
   uint8_t *s = pDraw->pPixels;
   uint16_t *pPal = pDraw->pPalette;
@@ -63,49 +63,47 @@ void GIFDraw(GIFDRAW *pDraw) {
     if (pDraw->ucHasTransparency && idx == pDraw->ucTransparent) {
       lineBuf[i] = 0x0000;
     } else {
-      lineBuf[i] = swap565(pPal[idx]);  // <- Corrigido aqui!
+      lineBuf[i] = swap565(pPal[idx]);
     }
   }
 
   gfx->draw16bitRGBBitmap(x, y, lineBuf, width, 1);
 }
 
-// ----- Setup -----
 void setup() {
   Serial.begin(115200);
   while (!Serial);
 
   if (!SPIFFS.begin(true)) {
-    Serial.println("Erro ao iniciar SPIFFS!");
+    Serial.println("Failed to mount SPIFFS");
     return;
   }
-  Serial.println("SPIFFS pronto.");
+  Serial.println("SPIFFS mounted.");
 
   gfx->begin();
   pinMode(GFX_BL, OUTPUT);
   digitalWrite(GFX_BL, HIGH);
 
   gfx->fillScreen(BLACK);
-  gif.begin(BIG_ENDIAN_PIXELS);  // <- Usa big-endian da lib, a gente inverte no código
+  gif.begin(BIG_ENDIAN_PIXELS);  // Library uses big endian, we swap manually
 }
 
-// ----- Loop -----
 void loop() {
   if (gif.open("/output.gif", GIFOpenFile, GIFCloseFile, GIFReadFile, GIFSeekFile, GIFDraw)) {
-    Serial.println("GIF carregado com sucesso!");
+    Serial.println("GIF loaded successfully.");
     while (gif.playFrame(true, NULL)) {
-      // Delay automático entre frames
+      // Automatic delay between frames
     }
     gif.close();
   } else {
     int err = gif.getLastError();
-    Serial.printf("Erro ao abrir o GIF! Código: %d\n", err);
+    Serial.printf("Failed to open GIF! Code: %d\n", err);
     gfx->fillScreen(BLACK);
     gfx->setCursor(0, 0);
     gfx->setTextColor(RED);
     gfx->setTextSize(2);
-    gfx->println("Erro ao abrir GIF");
-    gfx->printf("Codigo: %d\n", err);
+    gfx->println("Failed to open GIF");
+    gfx->printf("Code: %d\n", err);
     delay(5000);
   }
 
