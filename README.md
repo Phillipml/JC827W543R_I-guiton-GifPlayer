@@ -2,7 +2,7 @@ cat << 'EOF' > README.md
 
 # JC827W543R_I - GIF Player using SPIFFS
 
-[LinkAliExpress](https://pt.aliexpress.com/item/1005006729377800.html?spm=a2g0o.order_list.order_list_main.27.6ec5caa4tGAXDR&gatewayAdapt=glo2bra)
+[Link AliExpress](https://pt.aliexpress.com/item/1005006729377800.html?spm=a2g0o.order_list.order_list_main.27.6ec5caa4tGAXDR&gatewayAdapt=glo2bra)
 
 This is a personal project to demonstrate how to display animated GIFs on the JC827W543R_I 4.3" serial display using an ESP32-S3-N4R8 by Guition. It plays a `.gif` file stored in internal flash memory (SPIFFS) with full support for transparency and smooth animation.
 
@@ -19,18 +19,6 @@ The goal is to help other developers who want to play animated content on embedd
   - [AnimatedGIF](https://github.com/bitbank2/AnimatedGIF)
   - [Arduino_GFX](https://github.com/moononournation/Arduino_GFX)
   - SPIFFS (included with ESP32 board support)
-
----
-
-## 📁 Folder Structure
-
-\`\`\`
-JC827W543R_I-guiton-GifPlayer/
-├── JC827W543R_I-guiton-GifPlayer.ino # Main source code
-├── device_config.h # Board/display configuration
-├── data/
-│ └── output.gif # GIF to be displayed (480x272)
-\`\`\`
 
 ---
 
